@@ -15,9 +15,9 @@ echo "started spark history"
 # pyspark --master spark://localhost:7077 > /tmp/jupyter.log 2>&1 &
 # options: https://gerardnico.com/db/spark/pyspark/pyspark
 $SPARK_HOME/bin/pyspark \
-    --packages graphframes:graphframes:0.8.1-spark2.4-s_2.11 \
-    --repositories https://repos.spark-packages.org \
-    --master $PYSPARK_MASTER > /tmp/jupyter.log 2>&1 &
+--packages graphframes:graphframes:0.8.4-spark3.5-s_2.12 \
+--repositories https://repos.spark-packages.org \
+--master $PYSPARK_MASTER > /tmp/jupyter.log 2>&1 &
 echo "started pyspark"
 
 if [ -d "/root/ipynb/data" ]; then

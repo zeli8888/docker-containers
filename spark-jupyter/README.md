@@ -1,5 +1,16 @@
 ![One-Off Coder Logo](../logo.png "One-Off Coder")
-
+# My Modification
+- change graphframes:graphframes:0.8.1-spark2.4-s_2.11 to graphframes:graphframes:0.8.4-spark3.5-s_2.12 in ubuntu/usr/local/bin/start-all.sh
+- change https://dlcdn.apache.org/spark/spark-3.5.5/spark-3.5.5-bin-hadoop3.tgz (404) to https://dlcdn.apache.org/spark/spark-3.5.7/spark-3.5.7-bin-hadoop3.tgz
+- install pig-0.18.0
+- only for the purpose of study
+- build
+    ```bash
+    docker build --no-cache --platform=linux/amd64 -t spark-jupyter-pig .
+    ```
+    ```bash
+    docker tag spark-jupyter-pig zeli8888/spark-jupyter-pig && docker push zeli8888/spark-jupyter-pig
+    ```
 # Purpose
 
 This docker container is meant to be used for learning purpose for programming PySpark. It has the following components.

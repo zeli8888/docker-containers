@@ -50,19 +50,19 @@ RUN wget -q https://dlcdn.apache.org/hadoop/common/hadoop-3.4.1/hadoop-3.4.1.tar
     && rm -fr /usr/local/hadoop/etc/hadoop/* \
     && mkdir /usr/local/hadoop/extras \
     && mkdir /var/hadoop \
-	&& mkdir /var/hadoop/hadoop-datanode \
-	&& mkdir /var/hadoop/hadoop-namenode \
-	&& mkdir /var/hadoop/mr-history \
-	&& mkdir /var/hadoop/mr-history/done \
-	&& mkdir /var/hadoop/mr-history/tmp
+    && mkdir /var/hadoop/hadoop-datanode \
+    && mkdir /var/hadoop/hadoop-namenode \
+    && mkdir /var/hadoop/mr-history \
+    && mkdir /var/hadoop/mr-history/done \
+    && mkdir /var/hadoop/mr-history/tmp
 COPY ubuntu/usr/local/hadoop/etc/hadoop/* /usr/local/hadoop/etc/hadoop/
 COPY ubuntu/usr/local/hadoop/extras/* /usr/local/hadoop/extras/
 RUN $HADOOP_HOME/bin/hdfs namenode -format oneoffcoder
 
 # setup spark
-RUN wget -q https://dlcdn.apache.org/spark/spark-3.5.5/spark-3.5.5-bin-hadoop3.tgz -O /tmp/spark.tgz \
+RUN wget -q https://dlcdn.apache.org/spark/spark-3.5.7/spark-3.5.7-bin-hadoop3.tgz -O /tmp/spark.tgz \
     && tar -xzf /tmp/spark.tgz -C /usr/local/ \
-    && ln -s /usr/local/spark-3.5.5-bin-hadoop3 /usr/local/spark \
+    && ln -s /usr/local/spark-3.5.7-bin-hadoop3 /usr/local/spark \
     && rm /usr/local/spark/conf/*.template
 COPY ubuntu/usr/local/spark/conf/* /usr/local/spark/conf/
 
@@ -75,6 +75,15 @@ RUN wget -q https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.s
     && $CONDA_HOME/bin/conda update -n root conda -y \
     && $CONDA_HOME/bin/conda update --all -y \
     && $CONDA_HOME/bin/pip install --upgrade pip
+
+# my modification: setup pig
+RUN wget -q https://downloads.apache.org/pig/pig-0.18.0/pig-0.18.0.tar.gz -P /tmp \
+    && tar -xzf /tmp/pig-0.18.0.tar.gz -C /usr/local \
+    && mv /usr/local/pig-0.18.0 /usr/local/pig \
+    && rm /tmp/pig-0.18.0.tar.gz
+ENV PIG_HOME=/usr/local/pig
+ENV PIG_CLASSPATH=${HADOOP_HOME}/conf
+ENV PATH=${PATH}:${PIG_HOME}/bin
 
 # setup volumes
 RUN mkdir /root/ipynb
